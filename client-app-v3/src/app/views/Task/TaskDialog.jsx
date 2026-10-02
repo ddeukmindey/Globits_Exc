@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import GlobitsTextField from "app/common/form/GlobitsTextField";
+import GlobitsDateTimePicker from "app/common/form/GlobitsDateTimePicker";
 
 export default observer(function TaskDialog(props) {
   const { open, handleClose } = props;
@@ -31,6 +32,18 @@ export default observer(function TaskDialog(props) {
       <Formik
         initialValues={task}
         enableReinitialize={true}
+        validate={(values) => {
+          const errors = {};
+          if (!values.name || !values.name.trim()) {
+            errors.name = "Vui lòng nhập tên công việc";
+          }
+          if (values.startTime && values.endTime) {
+            if (new Date(values.endTime) < new Date(values.startTime)) {
+              errors.endTime = "Thời gian kết thúc phải sau hoặc bằng thời gian bắt đầu";
+            }
+          }
+          return errors;
+        }}
         onSubmit={(values) => {
           handleFormSubmit(values);
         }}
@@ -120,6 +133,18 @@ export default observer(function TaskDialog(props) {
                       <MenuItem value={4}>Tạm hoãn</MenuItem>
                     </Select>
                   </FormControl>
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <GlobitsDateTimePicker
+                    name="startTime"
+                    label="Thời gian bắt đầu"
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <GlobitsDateTimePicker
+                    name="endTime"
+                    label="Thời gian kết thúc"
+                  />
                 </Grid>
                 <Grid item sm={12} xs={12}>
                   <GlobitsTextField

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useStore } from 'app/stores';
+import moment from 'moment';
 import MaterialTable from 'material-table';
 import {
     Button,
@@ -66,6 +67,16 @@ export default observer(function TaskIndex() {
         { title: 'Tên công việc', field: 'name' },
         { title: 'Dự án', field: 'projectName' },
         { title: 'Người thực hiện', field: 'staffName' },
+        {
+            title: 'Thời gian bắt đầu',
+            field: 'startTime',
+            render: (rowData) => rowData.startTime ? moment(rowData.startTime).format('DD/MM/YYYY') : ''
+        },
+        {
+            title: 'Thời gian kết thúc',
+            field: 'endTime',
+            render: (rowData) => rowData.endTime ? moment(rowData.endTime).format('DD/MM/YYYY') : ''
+        },
         {
             title: 'Mức độ ưu tiên',
             field: 'priority',

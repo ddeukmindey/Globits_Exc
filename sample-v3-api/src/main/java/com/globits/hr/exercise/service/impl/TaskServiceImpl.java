@@ -83,6 +83,10 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, UUID> implements T
             entity = new Task();
         }
 
+        if (dto.getStartTime() != null && dto.getEndTime() != null && dto.getEndTime().before(dto.getStartTime())) {
+            throw new IllegalArgumentException("Thời gian kết thúc phải sau hoặc bằng thời gian bắt đầu");
+        }
+
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setStartTime(dto.getStartTime());

@@ -167,10 +167,15 @@ export default class TaskStore {
 
   handleFormSubmit = async (values) => {
     try {
+      const payload = {
+        ...values,
+        startTime: values.startTime ? values.startTime : null,
+        endTime: values.endTime ? values.endTime : null,
+      };
       if (this.itemId) {
-        await editTask(values);
+        await editTask(payload);
       } else {
-        await createTask(values);
+        await createTask(payload);
       }
       this.handleCloseDialog();
       this.updatePageData();
