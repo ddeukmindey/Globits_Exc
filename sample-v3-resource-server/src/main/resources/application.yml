@@ -1,0 +1,74 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          #jwk-set-uri: https://bael-jsonly-pkce.auth0.com/.well-known/jwks.json
+          #Need to fix problem with HTTPS
+          jwk-set-uri: http://sso.globits.net/auth/realms/HrPlatform/protocol/openid-connect/certs
+          #jwk-set-uri: classpath:globits.realm.certs
+    user:
+      password: pass
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  datasource:
+    #url: jdbc:h2:mem:bael-colors
+    #username: sa
+    #password:
+    #driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/new_hr?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+    tomcat:
+      initial-size: 15
+      max-wait: 2000
+      max-active: 50
+      max-idle: 15
+      min-idle: 8
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+        ddl-auto: update
+        max_fetch_depth: 4
+        show-sql: false
+        jdbc:
+          fetch_size: 50
+          batch_size: 10
+        c3p0:
+          min_size: 5
+          max_size: 20
+          timeout: 1800
+          max_statements: 50
+http:
+  port: 8071
+server:
+  port: 8072
+
+  ssl:
+    enabled: true
+    key-store: classpath:star.globits.net.pfx
+    key-store-password: Globits@01
+    key-password: Globits@01
+    key-store-type: pkcs12
+    #trust-store: classpath:globits.truststore.jks
+    #trust-store-password: Globits@01
+    #key-store-provider: SUN
+    #client-auth: want
+    #trust-store-type: JKS
+    #protocol: TLS
+    #enabled-protocols: TLSv1.2
+hrm:
+  urlLogin: http://sso.globits.net/auth/realms/master/protocol/openid-connect/token
+
+  urlUser: http://sso.globits.net/auth/admin/realms/HrPlatform/users
+
+  file:
+    folder: D:/Working/GLOBITS/Repos/ProjectV3/Hr-v3/Data/
+
+globits:
+  app:
+    jwtExpirationMs: 86400000
+    jwtRefreshExpirationMs: 86400000
