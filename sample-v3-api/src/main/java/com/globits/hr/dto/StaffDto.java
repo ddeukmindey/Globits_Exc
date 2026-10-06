@@ -25,6 +25,7 @@ import com.globits.hr.domain.StaffSalaryHistory;
 import com.globits.security.dto.UserDto;
 
 public class StaffDto extends PersonDto {
+    private String avatar;
     private String staffCode;
     private Date contractDate;
     private Date startDate;// Ngày bắt đầu công việc
@@ -125,6 +126,7 @@ public class StaffDto extends PersonDto {
             return;
         }
         id = entity.getId();
+        avatar = entity.getAvatar() != null ? entity.getAvatar() : entity.getImagePath();
         staffCode = entity.getStaffCode();
         firstName = entity.getFirstName();
         lastName = entity.getLastName();
@@ -1050,5 +1052,13 @@ public class StaffDto extends PersonDto {
 
     public void setWards(String wards) {
         this.wards = wards;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

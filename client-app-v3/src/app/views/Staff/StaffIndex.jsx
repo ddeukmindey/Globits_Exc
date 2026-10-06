@@ -5,8 +5,9 @@ import GlobitsTable from 'app/common/GlobitsTable';
 import GlobitsSearchInput from 'app/common/GlobitsSearchInput';
 import StaffDialog from './StaffDialog';
 import GlobitsConfirmationDialog from 'app/common/GlobitsConfirmationDialog';
-import { Autocomplete } from "@material-ui/lab";
-import { Button, Grid, Icon, IconButton, TextField, Collapse } from "@material-ui/core";
+import { Button, Grid, Icon, IconButton, TextField, Collapse, Avatar } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { getAvatarUrl } from "./StaffService";
 
 export default observer(function StaffIndex() {
     const [showFilter, setShowFilter] = useState(false);
@@ -61,6 +62,21 @@ export default observer(function StaffIndex() {
     };
 
     const columns = [
+        {
+            title: "Ảnh",
+            field: "avatar",
+            width: "80",
+            align: "center",
+            render: (rowData) => (
+                <Avatar
+                    src={getAvatarUrl(rowData.avatar || rowData.imagePath)}
+                    alt={rowData.displayName}
+                    style={{ width: 36, height: 36, margin: "auto" }}
+                >
+                    <Icon>person</Icon>
+                </Avatar>
+            )
+        },
         { title: "Mã NV (CCCD)", field: "idNumber", width: "150" },
         { title: "Họ và tên", field: "displayName", width: "200" },
         {

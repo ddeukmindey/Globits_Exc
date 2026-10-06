@@ -137,4 +137,9 @@ public class RestStaffController {
     public StaffDto updateStaffImage(@RequestParam String imagePath, @PathVariable UUID id) {
         return staffService.updateStaffImage(id, imagePath);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/avatar/{id}")
+    public StaffDto updateStaffAvatar(@RequestParam String avatar, @PathVariable UUID id) {
+        return staffService.updateStaffImage(id, avatar);
+    }
 }

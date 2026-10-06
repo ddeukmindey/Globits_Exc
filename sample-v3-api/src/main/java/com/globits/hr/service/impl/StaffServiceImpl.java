@@ -255,6 +255,10 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff, UUID> implements
             staff.setGender(staffDto.getGender());
         if (staffDto.getPhoto() != null)
             staff.setPhoto(staffDto.getPhoto());
+        if (staffDto.getAvatar() != null) {
+            staff.setAvatar(staffDto.getAvatar());
+            staff.setImagePath(staffDto.getAvatar());
+        }
         if (staffDto.getDisplayName() != null)
             staff.setDisplayName(normalize(staffDto.getDisplayName()));
         if (staffDto.getPhoneNumber() != null)
@@ -1006,6 +1010,10 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff, UUID> implements
             staff.setGender(staffDto.getGender());
         if (staffDto.getPhoto() != null)
             staff.setPhoto(staffDto.getPhoto());
+        if (staffDto.getAvatar() != null) {
+            staff.setAvatar(staffDto.getAvatar());
+            staff.setImagePath(staffDto.getAvatar());
+        }
         if (staffDto.getDisplayName() != null)
             staff.setDisplayName(staffDto.getDisplayName());
         if (staffDto.getPhoneNumber() != null)
@@ -1982,6 +1990,7 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff, UUID> implements
             }
             if (entity != null) {
                 entity.setImagePath(imagePath);
+                entity.setAvatar(imagePath);
                 entity = staffRepository.save(entity);
                 return new StaffDto(entity);
             }

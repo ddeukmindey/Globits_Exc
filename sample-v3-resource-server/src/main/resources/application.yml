@@ -66,7 +66,7 @@ hrm:
   urlUser: http://sso.globits.net/auth/admin/realms/HrPlatform/users
 
   file:
-    folder: D:/Working/GLOBITS/Repos/ProjectV3/Hr-v3/Data/
+    folder: d:/GLobits_Excrs/GLobits/uploads/
 
 globits:
   app:

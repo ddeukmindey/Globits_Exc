@@ -37,3 +37,25 @@ export const checkIdNumber = (obj) => {
     var url = API_PATH + "/checkIdNumber";
     return axios.post(url, obj);
 };
+
+export const uploadStaffAvatar = (file, staffId) => {
+    let url = ConstantList.API_ENPOINT + "/api/person/upload-avatar";
+    let formData = new FormData();
+    formData.append("file", file);
+    if (staffId) {
+        formData.append("personId", staffId);
+    }
+    return axios.post(url, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    });
+};
+
+export const getAvatarUrl = (avatar) => {
+    if (!avatar) return "";
+    if (avatar.startsWith("http://") || avatar.startsWith("https://") || avatar.startsWith("data:")) {
+        return avatar;
+    }
+    return ConstantList.API_ENPOINT + "/api/person/avatar/" + avatar;
+};

@@ -53,6 +53,9 @@ public class Staff extends Person {
     private HRDepartment department;//Phòng ban hiện thời
     @Column(name = "social_insurance_number", nullable = true)
     private String socialInsuranceNumber;//Số sổ bảo hiểm xã hội
+
+    @Column(name = "avatar")
+    private String avatar;//Đường dẫn ảnh đại diện
     @OneToMany(mappedBy = "staff", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PositionStaff> positions = new HashSet<PositionStaff>();//Quá trình chức vụ
 
@@ -724,6 +727,14 @@ public class Staff extends Person {
 
     public void setTimeSheets(Set<TimeSheetStaff> timeSheetStaffSet) {
         this.timeSheets = timeSheetStaffSet;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Staff() {

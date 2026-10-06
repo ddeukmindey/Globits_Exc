@@ -3,7 +3,6 @@ import {
     pagingStaff,
     deleteStaff,
     createStaff,
-    getAllStaffs,
     getStaff,
     editStaff
 } from './StaffService'
@@ -64,6 +63,7 @@ export default class StaffStore {
             religion: null,
             department: null,
             familyRelationships: [],
+            avatar: "",
         }
     }
 

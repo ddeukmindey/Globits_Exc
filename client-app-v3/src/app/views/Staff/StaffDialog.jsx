@@ -15,9 +15,11 @@ import {
     FormControl,
     IconButton,
     Icon,
+    Avatar,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Formik, Form, FieldArray } from "formik";
+import { uploadStaffAvatar, getAvatarUrl } from "./StaffService";
 
 export default observer(function StaffDialog(props) {
     const { open, handleClose } = props;
@@ -54,36 +56,92 @@ export default observer(function StaffDialog(props) {
                             SECTION 1: PERSONAL INFORMATION
                             ======================================================= */}
                             <h4 style={{ color: '#26c6da', marginTop: 0 }}>I. Thông tin chung</h4>
+                            <Grid container spacing={2} alignItems="center" style={{ marginBottom: 16 }}>
+                                <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
+                                    <Avatar
+                                        src={getAvatarUrl(values.avatar)}
+                                        style={{ width: 100, height: 100, margin: "0 auto 8px auto", border: "2px solid #26c6da" }}
+                                    >
+                                        <Icon style={{ fontSize: 60 }}>person</Icon>
+                                    </Avatar>
+                                    <div>
+                                        <input
+                                            accept="image/*"
+                                            style={{ display: "none" }}
+                                            id="staff-avatar-upload"
+                                            type="file"
+                                            onChange={async (e) => {
+                                                const file = e.target.files[0];
+                                                if (file) {
+                                                    try {
+                                                        const res = await uploadStaffAvatar(file, itemId);
+                                                        if (res && res.data && res.data.avatar) {
+                                                            setFieldValue("avatar", res.data.avatar);
+                                                        }
+                                                    } catch (err) {
+                                                        console.error("Upload avatar failed", err);
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                        <label htmlFor="staff-avatar-upload">
+                                            <Button
+                                                variant="outlined"
+                                                color="primary"
+                                                size="small"
+                                                component="span"
+                                                startIcon={<Icon>cloud_upload</Icon>}
+                                            >
+                                                Tải ảnh lên
+                                            </Button>
+                                        </label>
+                                        {values.avatar && (
+                                            <Button
+                                                size="small"
+                                                color="secondary"
+                                                onClick={() => setFieldValue("avatar", "")}
+                                                style={{ marginLeft: 4 }}
+                                            >
+                                                Xóa
+                                            </Button>
+                                        )}
+                                    </div>
+                                </Grid>
+                                <Grid item xs={12} sm={9}>
+                                    <Grid container spacing={2}>
+                                        <Grid item md={4} sm={6} xs={12}>
+                                            <TextField
+                                                fullWidth variant="outlined" size="small"
+                                                name="lastName" label="Họ (Last Name)"
+                                                value={values.lastName || ""} 
+                                                onChange={(e) => {
+                                                    handleChange(e);
+                                                    setFieldValue('displayName', `${e.target.value} ${values.firstName || ""}`.trim());
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item md={4} sm={6} xs={12}>
+                                            <TextField
+                                                fullWidth variant="outlined" size="small"
+                                                name="firstName" label="Tên (First Name)"
+                                                value={values.firstName || ""} 
+                                                onChange={(e) => {
+                                                    handleChange(e);
+                                                    setFieldValue('displayName', `${values.lastName || ""} ${e.target.value}`.trim());
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item md={4} sm={6} xs={12}>
+                                            <TextField
+                                                fullWidth variant="outlined" size="small" disabled
+                                                name="displayName" label="Tên hiển thị"
+                                                value={values.displayName || ""} 
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                             <Grid container spacing={2}>
-                                <Grid item md={4} sm={6} xs={12}>
-                                    <TextField
-                                        fullWidth variant="outlined" size="small"
-                                        name="lastName" label="Họ (Last Name)"
-                                        value={values.lastName || ""} 
-                                        onChange={(e) => {
-                                            handleChange(e);
-                                            setFieldValue('displayName', `${e.target.value} ${values.firstName || ""}`.trim());
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item md={4} sm={6} xs={12}>
-                                    <TextField
-                                        fullWidth variant="outlined" size="small"
-                                        name="firstName" label="Tên (First Name)"
-                                        value={values.firstName || ""} 
-                                        onChange={(e) => {
-                                            handleChange(e);
-                                            setFieldValue('displayName', `${values.lastName || ""} ${e.target.value}`.trim());
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item md={4} sm={6} xs={12}>
-                                    <TextField
-                                        fullWidth variant="outlined" size="small" disabled
-                                        name="displayName" label="Tên hiển thị"
-                                        value={values.displayName || ""} 
-                                    />
-                                </Grid>
 
                                 <Grid item md={3} sm={6} xs={12}>
                                     <FormControl fullWidth variant="outlined" size="small">
