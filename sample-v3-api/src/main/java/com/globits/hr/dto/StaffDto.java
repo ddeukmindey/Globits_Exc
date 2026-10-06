@@ -349,6 +349,10 @@ public class StaffDto extends PersonDto {
             return;
         }
         id = entity.getId();
+        avatar = entity.getAvatar() != null ? entity.getAvatar() : entity.getImagePath();
+        if (avatar != null && getImagePath() == null) {
+            setImagePath(avatar);
+        }
         staffCode = entity.getStaffCode();
         firstName = entity.getFirstName();
         lastName = entity.getLastName();

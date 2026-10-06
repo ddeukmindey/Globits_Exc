@@ -59,7 +59,7 @@ export default observer(function StaffDialog(props) {
                             <Grid container spacing={2} alignItems="center" style={{ marginBottom: 16 }}>
                                 <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
                                     <Avatar
-                                        src={getAvatarUrl(values.avatar)}
+                                        src={getAvatarUrl(values.avatar || values.imagePath)}
                                         style={{ width: 100, height: 100, margin: "0 auto 8px auto", border: "2px solid #26c6da" }}
                                     >
                                         <Icon style={{ fontSize: 60 }}>person</Icon>
@@ -77,6 +77,7 @@ export default observer(function StaffDialog(props) {
                                                         const res = await uploadStaffAvatar(file, itemId);
                                                         if (res && res.data && res.data.avatar) {
                                                             setFieldValue("avatar", res.data.avatar);
+                                                            setFieldValue("imagePath", res.data.avatar);
                                                         }
                                                     } catch (err) {
                                                         console.error("Upload avatar failed", err);
@@ -95,11 +96,14 @@ export default observer(function StaffDialog(props) {
                                                 Tải ảnh lên
                                             </Button>
                                         </label>
-                                        {values.avatar && (
+                                        {(values.avatar || values.imagePath) && (
                                             <Button
                                                 size="small"
                                                 color="secondary"
-                                                onClick={() => setFieldValue("avatar", "")}
+                                                onClick={() => {
+                                                    setFieldValue("avatar", "");
+                                                    setFieldValue("imagePath", "");
+                                                }}
                                                 style={{ marginLeft: 4 }}
                                             >
                                                 Xóa
